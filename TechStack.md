@@ -1,4 +1,4 @@
-Tech Stack:
+## Tech Stack:
 
 Python — Core application
 Ollama (Llama 3) — Reasoning, summarization, and tool selection
@@ -10,7 +10,7 @@ PyGetWindow — Active window detection
 JSON — Memory storage (working memory, session history, task memory)
 TypeScript + VS Code Extension API — Editor context extraction
 
-Core Python Modules Used:
+## Core Python Modules Used:
 
 datetime — Session timestamps and activity logging
 os — File and directory management
