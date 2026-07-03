@@ -1,0 +1,6 @@
+{
+  "file": "c:\\Users\\novac\\OneDrive\\Desktop\\Ai\\main.py",
+  "line": 93,
+  "nearbyCode": "                # print(\"SKIPPED CONTEXT\")\n                speak(\"Context not important enough to save.\")\n        else:\n            speak(response)\n    except Exception as e:\n        print(\"ERROR:\", e)\n        raise\n",
+  "functionContext": "def analyze_current_context():\n    context = {\n        \"active_window\": get_active_window(),\n        \"screen_text\": read_screen_text()\n    }\n    vscode_context = get_vscode_context()\n    if vscode_context:\n        context[\"vscode_context\"] = vscode_context\n    return context\n"
+}

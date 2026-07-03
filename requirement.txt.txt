@@ -1,0 +1,8 @@
+ollama
+pytesseract
+opencv-python 
+sounddevice (removed it later)
+numpy (removed it later)
+playsound 
+edge-tts
+os

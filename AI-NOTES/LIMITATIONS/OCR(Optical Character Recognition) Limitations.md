@@ -1,0 +1,3 @@
+- noisy(by noise i mean weak/ cant understand whats on my screen)
+- weak UI understanding
+- no image comprehension

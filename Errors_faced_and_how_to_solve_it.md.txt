@@ -1,0 +1,200 @@
+# Bugs and Engineering Lessons
+
+This section documents some of the most important bugs encountered during development and what they taught me.
+
+---
+
+## 1. Task Memory Structure Bug
+
+### Problem
+
+Initially, `task_memory.json` stored only a single task.
+
+Example:
+
+```json
+{
+  "id": 1,
+  "task": "Fix OCR",
+  "status": "open"
+}
+```
+
+However, every task-management function expected a **list of tasks**.
+
+Functions such as:
+
+- add_task()
+- mark_task_done()
+- show_remaining_tasks()
+
+iterated through the data using:
+
+```python
+for task in memory:
+```
+
+Since the JSON file contained a dictionary instead of a list, Python iterated over dictionary keys (`"id"`, `"task"`, `"status"`) rather than task objects, causing runtime errors.
+
+---
+
+### Solution
+
+The storage format was redesigned to always store a list.
+
+Correct format:
+
+```json
+[
+  {
+    "id": 1,
+    "task": "Fix OCR",
+    "status": "open"
+  }
+]
+```
+
+This made every task-management function work consistently while allowing multiple tasks to be stored.
+
+---
+
+## 2. Saving Only One Task Instead of the Entire Database
+
+### Problem
+
+When updating a task, I accidentally saved the individual task instead of the complete task list.
+
+Incorrect:
+
+```python
+json.dump(task, file)
+```
+
+This replaced the entire database with a single dictionary.
+
+---
+
+### Solution
+
+Always save the complete task list.
+
+Correct:
+
+```python
+json.dump(memory, file, indent=2)
+```
+
+This preserves every task while updating only the modified one.
+
+---
+
+## 3. Empty JSON File
+
+### Problem
+
+At one point `task_memory.json` existed but contained no data.
+
+```
+
+(empty file)
+
+```
+
+Attempting to load it resulted in:
+
+```
+JSONDecodeError:
+Expecting value: line 1 column 1 (char 0)
+```
+
+---
+
+### Solution
+
+The program now creates an empty list whenever the file does not exist.
+
+```python
+memory = []
+```
+
+An empty task database should always be represented as:
+
+```json
+[]
+```
+
+instead of an empty file.
+
+---
+
+## 4. JSON Read/Write Modes
+
+### Problem
+
+A bug occurred because the file was opened in write mode before attempting to read it.
+
+Example:
+
+```python
+with open(TASK_MEMORY, "w") as f:
+    memory = json.load(f)
+```
+
+Opening the file in write mode immediately erased its contents.
+
+---
+
+### Solution
+
+Use:
+
+```python
+with open(TASK_MEMORY, "r") as f:
+```
+
+when reading.
+
+Only use write mode after modifications are complete.
+
+---
+
+## 5. Data Persistence
+
+### Problem
+
+Initially, task status was updated only in memory.
+
+Example:
+
+```python
+task["status"] = "done"
+```
+
+The program returned immediately without saving the updated list.
+
+As a result, the next program launch restored the previous state.
+
+---
+
+### Solution
+
+After modifying a task, write the updated task list back to disk.
+
+```python
+with open(TASK_MEMORY, "w") as f:
+    json.dump(memory, f, indent=2)
+```
+
+This ensures task changes persist across sessions.
+
+---
+
+## Lessons Learned
+
+Building this project reinforced several software engineering concepts:
+
+- Choosing the correct data structure is critical.
+- Persistent storage should be treated like a small database.
+- Always validate JSON before loading it.
+- Read and write operations should be separated clearly.
+- Runtime state and persistent state are different and must be synchronized explicitly.

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "task": "what am i doing",
+    "status": "done"
+  },
+  {
+    "id": 2,
+    "task": "remote",
+    "status": "open"
+  },
+  {
+    "id": 3,
+    "task": "i want to add call a new function in ask_ai for looping",
+    "status": "done"
+  }
+]

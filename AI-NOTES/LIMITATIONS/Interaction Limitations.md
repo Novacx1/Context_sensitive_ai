@@ -1,0 +1,3 @@
+- no interruptions
+- sequential pipeline
+- wake-word delay

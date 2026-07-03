@@ -1,0 +1,285 @@
+# Context-Sensitive AI - Setup Guide
+
+## 1. Clone Repository
+
+Clone this repository and open it in VS Code.
+
+---
+
+# 2. Install Python Dependencies
+
+Install all required Python libraries.
+
+Example:
+
+pip install -r requirements.txt
+
+---
+
+# 3. Run the VS Code Extension
+
+Navigate to:
+
+personal-context-vscode/src/extension.ts
+
+Press
+
+F5
+
+(or Fn + F5)
+
+This launches a new Extension Development Host.
+
+You may also launch it manually using VS Code's Run and Debug option.
+
+---
+
+# 4. Open the AI Project
+
+Inside the new VS Code window:
+
+Open
+
+AI/
+    Context-Sensitive-AI/
+
+Run
+
+main.py
+
+The assistant is now connected with the VS Code extension.
+
+---
+
+# Supported Commands(this is important)
+
+## Context
+
+What am I doing?
+
+Continue
+
+Repeat
+
+What apps are open?
+
+What window is active?
+
+---
+
+## Task Management
+
+Add task <task>
+
+Remaining
+
+Done <task id>
+
+---
+
+## General Questions
+
+The assistant can answer normal questions while also acting as a context engine.
+
+---
+
+# How Everything Works
+
+## main.py
+
+Main entry point.
+
+Responsibilities:
+
+- Handles user input
+- Calls ask_ai()
+- Executes tool calls
+- Updates working memory
+- Saves important sessions
+
+---
+
+## brain.py
+
+Core intelligence.
+
+Responsibilities:
+
+- Prompt creation
+- Tool routing
+- Session saving
+- Context summarization
+- Memory retrieval
+- Task management
+- Continue workflow
+- AI communication
+
+---
+
+## commands.py
+
+Contains computer interaction functions.
+
+Examples:
+
+- OCR
+- Active window detection
+- Screenshot reading
+- Context collection
+
+---
+
+## voice.py (THIS WILL BE USED LATER FOR THE TIME BEING NOT NEEDED AS WAS CAUSING DEBUGGING ISSUES AND WAS MAKING THE AI VERY SLOW)
+
+Voice input/output.
+
+Responsibilities:
+
+- Speech recognition
+- Text-to-speech
+
+---
+
+## Session History
+
+Stores summarized working sessions.
+
+Purpose:
+
+Allows the assistant to reconstruct previous work.
+
+---
+
+## Task Memory
+
+Stores:
+
+- Task ID
+- Task Name
+- Status
+
+Used by:
+
+- Add Task
+- Remaining
+- Done
+
+---
+
+## Working Memory
+
+Stores temporary runtime information such as:
+
+- Previous context
+- Current context
+- Previous response
+
+---
+
+## VS Code Extension
+
+The extension continuously monitors:
+
+- Active file
+- Cursor position
+- Function context
+
+It writes this information to:
+
+vscode_context.json
+
+The Python application reads this file whenever context analysis is requested.
+
+---
+
+# AI Flow
+
+User
+
+↓
+
+ask_ai()
+
+↓
+
+Tool Selection
+
+↓
+
+Computer Analysis
+
+↓
+
+Context Summarization
+
+↓
+
+Session Saving
+
+↓
+
+Response
+
+---
+
+# Limitations
+
+## 1. Hallucinations
+
+The AI may occasionally infer incorrect details when OCR quality is poor.
+
+---
+
+## 2. Command Matching
+
+Command parsing is currently rule-based.
+
+For example:
+
+"I finished task 1"
+
+will not work.
+
+Instead use:
+
+Done 1
+
+Future versions will use an AI intent classifier.
+
+---
+
+## 3. OCR
+
+OCR accuracy depends on screen quality and text clarity.
+
+---
+
+## 4. VS Code Dependency
+
+Rich coding context is only available while the VS Code extension is running.
+
+---
+
+## 5. Session Memory
+
+Memory is stored in JSON files.
+
+No embeddings or vector database are currently used.
+
+---
+
+## 6. Voice
+
+Speech recognition accuracy depends on microphone quality.
+
+---
+
+# Future Improvements
+
+- AI intent classification
+- Semantic task search
+- RAG memory
+- Better OCR cleaning
+- More applications supported
+- Better interruption recovery
+- Long-term learning
